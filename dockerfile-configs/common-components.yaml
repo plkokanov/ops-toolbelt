@@ -27,8 +27,6 @@
   - figlet
   - tcpdump
   - iputils-ping
-  - debconf-utils
-  - wireguard
   - name: silversearcher-ag
     provides: ag
   - name: iproute2
@@ -76,12 +74,6 @@
       apt-get --yes update && apt-get install --yes locales ;\
       locale-gen "en_US.UTF-8"
     info: ~
-  - name: iptables-persistent
-    command: |
-      echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections ;\
-      echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections ;\
-      sudo apt-get --yes install iptables-persistent
-    info: ~
 
 - env:
   - LANG=en_US.UTF-8
@@ -107,6 +99,14 @@
       echo "" >> /root/.bashrc;\
       echo "source /etc/profile.d/bash_completion.sh" >> /root/.bashrc
     info: ~
+  - name: table
+    command: |
+      echo "source /root/dotfiles/.table" >> /root/dotfiles/.bashrc
+    info: Show helpful info about iptable rules by using grep.
+  - name: wg
+    command : |
+      echo "source /root/dotfiles/.wireguard" >> /root/dotfiles/.bashrc
+    info: Command line tool for the wireguard VPN.
   - name: dotfiles
     command: |
       echo "" >> /root/.bashrc;\
